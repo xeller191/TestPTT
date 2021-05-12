@@ -1,7 +1,12 @@
-const Controller = require('../controllers/controller.js');
+const express = require("express")
+const router = express.Router()
+const controller = require('../controllers/controller.js');
 const {authorise} = require('../untils')
 
-module.exports = (server) => {
-    server.get('',authorise.isAuthen, Controller.queryData);
+router.get("/", controller.queryData)
+// module.exports = (server) => {
+//     server.get('',authorise.isAuthen, Controller.queryData);
     
-}
+// }
+
+module.exports = router

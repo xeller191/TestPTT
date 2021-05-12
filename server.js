@@ -1,37 +1,38 @@
+const express = require("express")
 const cors = require("cors"),
-  bodyParser = require("body-parser")
-  // config = require("./config");
+    bodyParser = require("body-parser"),
+    config = require("./config/index")
+const controller = require("./routes/index")
+const server = express()
 
-var server = express();
 const corsOptions = {
-  origins: ["*"],
-  allowHeaders: ["Content-Type", "Content-Length", "Authorization"],
-};
-server.use(cors(corsOptions));
-server.use(require("morgan")("dev"));
-server.use(bodyParser.urlencoded({ extended: false }));
-server.use(bodyParser.json());
+    origins: ["*"],
+    allowHeaders: ["Content-Type", "Content-Length", "Authorization"],
+}
+server.use(cors(corsOptions))
+server.use(require("morgan")("dev"))
+server.use(bodyParser.urlencoded({ extended: false }))
+server.use(bodyParser.json())
 server.listen(config.serverSettings.port, () => {
-  console.log(`---${config.name} Service ---`);
-  console.log(`Connecting to ${config.name} repository...`);
+    console.log(`---${config.name} Service ---`)
+    console.log(`Connecting to ${config.name} repository...`)
 
-  require("./routes")(server);
-});
-
+    // require("./routes")(server)
+})
+server.use("/controller", controller)
 process.on("SIGINT", () => {
-  process.exit(0);
-});
+    process.exit(0)
+})
 process.on("SIGTERM", () => {
-  console.log(`Closing ${config.name} Service.`);
-  server.close((err) => {
-    if (err) {
-      console.error(err);
-      process.exit(1);
-    }
+    console.log(`Closing ${config.name} Service.`)
+    server.close((err) => {
+        if (err) {
+            console.error(err)
+            process.exit(1)
+        }
 
-    console.log("Server closed.");
+        console.log("Server closed.")
+    })
+})
 
-  });
-});
-
-module.exports = server;
+module.exports = server

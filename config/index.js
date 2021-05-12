@@ -3,7 +3,7 @@ module.exports = {
     version: '1.0.0',
     env: process.env.NODE_ENV || 'development',
     serverSettings: {
-        port: process.env.PORT || 3000
+        port: process.env.PORT || 5000
     },
     dbSettings: {
         db: process.env.DB || '',
